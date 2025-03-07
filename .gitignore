@@ -17,8 +17,6 @@ logs/
 logs/scheduler/
 logs/scheduler/latest
 
-# Ignore temporary data saved in this folder from loading to the server
-architecture/
 
 # Ignore data folder
 data/

@@ -29,5 +29,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy scripts into the container
 COPY scripts /app/scripts/
 
-# Command to run your script (*.py includes all the Python scripts in the scripts folder)
 CMD ["sh", "-c", "for script in /app/scripts/*.py; do python $script; done && tail -f /dev/null"]
