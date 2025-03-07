@@ -22,3 +22,7 @@ architecture/
 
 # Ignore data folder
 data/
+
+# exlude bigger files
+data/raw/inventory_tbl/inventory_parts.csv
+data/transformed/ft_inv_parts.csv
