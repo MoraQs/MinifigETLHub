@@ -4,8 +4,6 @@
 
 This project is focused on building an **ETL (Extract, Transform, Load)** pipeline using **Apache Airflow**, **PostgreSQL**, and **Docker**. The objective of the pipeline is to automate the process of extracting data from two sources (RESTful API, SQL databases), transforming the data, and loading it into a PostgreSQL database (Analytics DB). The solution is containerized using Docker and managed through Docker Compose, ensuring seamless execution across various environments.
 
----
-
 ## Project Structure
 
 The project is organized into the following primary components:
@@ -14,8 +12,6 @@ The project is organized into the following primary components:
 - **Docker Compose**: Configuration files for Docker to create containers for PostgreSQL, Airflow, pgAdmin, and other services.
 - **Python Scripts**: Custom Python scripts to manage the ingestion, transformation, and loading of data.
 - **Airflow Logs**: Airflow logs are stored to track the success or failure of tasks within the ETL process.
-
----
 
 ## Components
 
@@ -58,8 +54,6 @@ Docker Compose is used to manage the multi-container setup. The setup ensures th
 ### 5. `.env` File
 
 The `.env` file stores environment-specific variables, including PostgreSQL credentials and Airflow configurations. It ensures sensitive information is kept secure.
-
----
 
 ## Setup and Installation
 
@@ -106,8 +100,6 @@ This will start the PostgreSQL, Airflow, pgAdmin, and other services defined in 
 - **pgAdmin**: Access pgAdmin at `http://localhost:5050`.
 - **PostgreSQL**: Connect to PostgreSQL using the credentials in the `.env` file through any PostgreSQL client (pgAdmin, DBeaver, etc.).
 
----
-
 ## Running the ETL Pipeline
 
 Once the services are up and running, you can trigger the ETL pipeline from the Airflow UI.
@@ -119,8 +111,6 @@ In the Airflow UI, you will see the `full_etl` DAG listed. You can trigger the D
 ### 2. Monitor Task Execution
 
 Airflow provides detailed logs for each task. You can monitor the execution status, view logs, and debug any issues directly from the Airflow UI.
-
----
 
 ## Troubleshooting
 
