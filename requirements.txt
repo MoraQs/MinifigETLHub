@@ -1,0 +1,7 @@
+pandas
+pyodbc
+psycopg2
+python-dotenv
+sqlalchemy
+requests
+apache-airflow

@@ -1,0 +1,21 @@
+# Ignore system files as part of your docker image
+.DS_Store
+desktop.ini
+Thumbs.db
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore local virtual environment
+venv/
+.env
+
+# Ignore logs and temporary files
+logs/
+logs/scheduler/
+logs/scheduler/latest
+
+# Ignore temporary data saved in this folder from loading to the server
+architecture/
