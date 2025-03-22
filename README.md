@@ -8,7 +8,7 @@ This project is focused on building an **ETL (Extract, Transform, Load)** pipeli
 
 The project is organized into the following primary components:
 
-- **DAGs**: Contains the Airflow DAGs (Directed Acyclic Graphs) that define the sequence of operations for the ETL tasks.
+- **DAGs  Contains the Airflow DAGs (Directed Acyclic Graphs) that define the sequence of operations for the ETL tasks.
 - **Docker Compose**: Configuration files for Docker to create containers for PostgreSQL, Airflow, pgAdmin, and other services.
 - **Python Scripts**: Custom Python scripts to manage the ingestion, transformation, and loading of data.
 - **Airflow Logs**: Airflow logs are stored to track the success or failure of tasks within the ETL process.
