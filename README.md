@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is focused on building an **ETL (Extract, Transform, Load)** pipeline using **Apache Airflow**, **PostgreSQL**, and **Docker**. The objective of the pipeline is to automate the process of extracting data from two sources (RESTful API, SQL databases), transforming the data, and loading it into a PostgreSQL database (Analytics DB). The solution is containerized using Docker and managed through Docker Compose, ensuring seamless execution across various environments.
+This project is focused on building an **ETL (Extract, Transform, Load)** pipeline using **Apache Airflow**, **PostgreSQL**, and **Docker**. The objective of the pipeline is to automate the process of extracting data from two sources (RESTful API, SQL databases), transforming the data, and loading it into a PostgreSQL database (Analytics DB). The solution is containerized using Docker and managed through Docker-Compose, ensuring seamless execution across various environments.
 
 ## Project Structure
 
