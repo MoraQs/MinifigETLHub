@@ -1,41 +1,12 @@
 services:
-  # PostgreSQL service (destination)
-  postgres:
-    image: postgres:15
-    container_name: postgres_db
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  # PgAdmin service to interact with PostgreSQL
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - "5050:80"
-    depends_on:
-      - postgres
-
   # Airflow Webserver
   airflow:
     image: apache/airflow:2.7.2
     container_name: airflow_etl
     restart: always
-    depends_on:
-      - postgres
     environment:
       - AIRFLOW_CORE_EXECUTOR=LocalExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
     env_file:
       - .env      # loading env_file to be used within airflow to run DAGs
@@ -53,7 +24,7 @@ services:
   airflow_scheduler:
     image: apache/airflow:2.7.2
     container_name: airflow_scheduler
-    restart: always
+    restart: "no"
     depends_on:
       - airflow
     env_file:
@@ -73,7 +44,6 @@ services:
     volumes:
       - .:/app  # Syncs local project directory with /app inside the container
     depends_on:
-      - postgres
       - airflow_scheduler
     command: ["sh", "-c", "python scripts/api_call.py && tail -f /dev/null"]  # Keeps container running
 
@@ -89,10 +59,5 @@ services:
       - ./data:/home/jovyan/data       # Mount the data directory
     environment:
       - JUPYTER_ENABLE_LAB=yes
-    depends_on:
-      - postgres  # Jupyter depends on PostgreSQL
     env_file:
       - .env     # loading env_file to be used within jupyterLab for transformation
-
-volumes:
-  postgres_data:  # Volume for PostgreSQL database data

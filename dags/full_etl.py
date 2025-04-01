@@ -43,14 +43,14 @@ def ingest_sql_source():
     """Ingesting data from SQL Server database"""
 
     # Fetching the source environment variables
-    DB_USER = os.getenv("POSTGRES_USER_DEST")
-    DB_PASSWORD = os.getenv("POSTGRES_PASSWORD_DEST")
-    DB_HOST = os.getenv("POSTGRES_HOST_DEST")
-    DB_PORT = os.getenv("POSTGRES_PORT_DEST")
-    DB_NAME = os.getenv("POSTGRES_DB_DEST")
+    DB_USER = os.getenv("POSTGRES_USER")
+    DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    DB_HOST = os.getenv("POSTGRES_HOST")
+    DB_PORT = os.getenv("POSTGRES_PORT")
+    DB_NAME = os.getenv("POSTGRES_DB")
 
     # Constructing the connection string
-    DB_CONN_STRING = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    DB_CONN_STRING = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:5432/{DB_NAME}"
     print(f"Connection string: {DB_CONN_STRING}")
 
     try:
@@ -356,12 +356,15 @@ def transforming_data():
 # Loading transformed data into the Analytics Database (PostgreSQL)
 def load_to_postgres():
     """Loading transformed data into the destination PostgreSQL DB"""
+    # Fetching the source environment variables
     DB_USER = os.getenv("POSTGRES_USER")
     DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
     DB_HOST = os.getenv("POSTGRES_HOST")
-    DB_PORT = os.getenv("POSTGRES_PORT")
     DB_NAME = os.getenv("POSTGRES_DB")
-    DB_CONN_STRING = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+    # Constructing the connection string
+    DB_CONN_STRING = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:5432/{DB_NAME}"
+    print(f"Connection string: {DB_CONN_STRING}")
 
     engine = create_engine(DB_CONN_STRING)
     conn = engine.connect()
