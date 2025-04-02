@@ -1,0 +1,60 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Dockerfile'            # Only trigger when Dockerfile changes
+      - 'dag/**'                # Include all DAG files
+      - 'scripts/**'            # Or when ETL scripts change
+      - 'requirements.txt'      # Or when dependencies change
+      - '.github/workflows/*'   # Self update workflow
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/airflow-orchestration
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write  # Required for pushing to Docker Hub
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: network=host  # Faster builds
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+          labels: |
+            maintainer=Your Name
+            org.opencontainers.image.source=${{ github.repositoryUrl }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.ref == 'refs/heads/main' }}  # Only push on main branch
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha  # Cache layers for faster builds
+          cache-to: type=gha,mode=max
