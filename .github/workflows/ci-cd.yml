@@ -3,6 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches: [ "main" ]
+    tags: [ "v*.*.*" ] # Trigger on version tags
     paths:
       - 'Dockerfile'            # Only trigger when Dockerfile changes
       - 'dag/**'                # Include all DAG files

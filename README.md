@@ -2,13 +2,13 @@
 
 ## Overview
 
-This project is focused on building an **ETL (Extract, Transform, Load)** pipeline using **Apache Airflow**, **PostgreSQL**, and **Docker**. The objective of the pipeline is to automate the process of extracting data from two sources (RESTful API, SQL databases), transforming the data, and loading it into a PostgreSQL database (Analytics DB). The solution is containerized using Docker and managed through Docker-Compose, ensuring seamless execution across various environments.
+This project is focused on building an **ETL (Extract, Transform, Load)** pipeline using **Apache Airflow**, **PostgreSQL**, and **Docker**, with automated CI/CD deployments to **Docker Hub**. The objective of the pipeline is to automate the process of extracting data from two sources (RESTful API, SQL database), transforming the data, and loading it into a PostgreSQL database (Analytics DB). The solution is containerized using Docker and managed through Docker-Compose, ensuring seamless execution across various environments while auto-builds and pushes images to **Doker Hub** on code changes.
 
 ## Project Structure
 
 The project is organized into the following primary components:
 
-- **DAGs  Contains the Airflow DAGs (Directed Acyclic Graphs) that define the sequence of operations for the ETL tasks.
+- **DAGs**  Contains the Airflow DAGs (Directed Acyclic Graphs) that define the sequence of operations for the ETL tasks.
 - **Docker Compose**: Configuration files for Docker to create containers for PostgreSQL, Airflow, pgAdmin, and other services.
 - **Python Scripts**: Custom Python scripts to manage the ingestion, transformation, and loading of data.
 - **Airflow Logs**: Airflow logs are stored to track the success or failure of tasks within the ETL process.
@@ -119,3 +119,24 @@ If you encounter issues, check the following:
 - **Logs**: View the logs in Airflow UI or use `docker logs <container_name>` to inspect logs for each.
 - **Database Connectivity:**: Ensure that the PostgreSQL container is up and running, and that the connection details are correct.
 - **File Paths:**: Double-check the paths to staging files if the ETL process is failing to find or load data.
+
+## CI/CD Pipeline
+
+- **Trigger**: Pushes to `main` branch or version tags (`v*.*.*`)
+- **Actions**:
+  - Build Docker image from `Dockerfile`
+  - Tag with: `latest`, Git SHA (e.g., `1ba4ert`), and semantic versions (e.g., `v1.0.0`)
+  - Pushes to [Docker Hub](https://hub.docker.com/)
+- **Requirements**:
+  - Docker Hub credentials stored in GitHub Secrets
+  - Versioned releases via `git tag -a v1.0.0 -m "Release"`
+
+### Why This Matters
+
+- **Reproducibility**: Versioned images ensure consistent deployments.
+
+- **Automation**: No manual builds required after code updates.
+
+- **Traceability**: Git commits map directly to Docker tags.
+
+To customize the pipeline, edit `.github/workflows/ci-cd.yml`.
