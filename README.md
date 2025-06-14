@@ -62,8 +62,7 @@ To set up and run this project, follow these steps:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository_url>
-cd <repository_directory>
+git clone [repo](https://github.com/MoraQs/MinifigETLHub.git)
 ```
 
 ### 2. Install Docker and Docker Compose
